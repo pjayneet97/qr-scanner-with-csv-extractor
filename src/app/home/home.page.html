@@ -16,7 +16,16 @@
   <div class="scan-box" [hidden]="!scanActive"></div>
 
   <ng-container *ngIf="result && !scanActive">
+   <div class="ion-padding">
     <p class="ion-text-center" >{{result}}</p>
     <!-- string interpolation to show result present in displayData variable -->
+    <p *ngFor="let item of displayData | keyvalue">
+     <ng-container *ngIf="item.key && item.value">
+      <strong>{{item.key}} :</strong>
+      <span> {{item.value}}</span>
+     </ng-container>
+    </p>
+   </div>
+   <br><br>
   </ng-container>
 </ion-content>

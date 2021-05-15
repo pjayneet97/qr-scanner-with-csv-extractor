@@ -39,7 +39,7 @@ export class HomePage implements AfterViewInit {
       this.scanActive=false
       console.log(result.content); // log the raw scanned content
       this.result=result.content
-      this.showData(result)
+      this.showData(this.result)
     }
   }
 
@@ -114,8 +114,6 @@ export class HomePage implements AfterViewInit {
     
     this.displayData={...found,...temp}
     console.log(this.displayData)
-
-    
   }
 
 }
