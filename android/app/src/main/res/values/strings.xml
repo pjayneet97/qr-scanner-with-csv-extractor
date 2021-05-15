@@ -1,0 +1,7 @@
+<?xml version='1.0' encoding='utf-8'?>
+<resources>
+    <string name="app_name">qr-scanner</string>
+    <string name="title_activity_main">qr-scanner</string>
+    <string name="package_name">com.qrscan.splixcube</string>
+    <string name="custom_url_scheme">com.qrscan.splixcube</string>
+</resources>
