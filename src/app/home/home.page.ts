@@ -23,6 +23,7 @@ export class HomePage implements AfterViewInit {
   scanActive=false
   result
   data=[]
+  displayData=null
   constructor(public http:HttpClient) {}
 
   async startScan(){
@@ -37,6 +38,7 @@ export class HomePage implements AfterViewInit {
       this.scanActive=false
       console.log(result.content); // log the raw scanned content
       this.result=result.content
+      this.showData(result)
     }
   }
 
@@ -89,6 +91,17 @@ export class HomePage implements AfterViewInit {
   }
 
   return false;
+  }
+
+  showData(result){
+    console.log(result) // string scanned for qr
+    // logic to find data using csvData present in data variable and result
+
+    this.displayData={ } // result from above logic
+
+    // display the data to screen using string interpolation in ng-container present in html
+
+    
   }
 
 }

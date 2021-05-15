@@ -13,7 +13,9 @@
 
   <ion-button color="danger" class="btn-fixed-bottom ion-margin" expand="block" *ngIf="scanActive" (click)="stopScan()">Stop Scanning</ion-button>
   </div>
-
-  <p class="ion-text-center" *ngIf="result && !scanActive">{{result}}</p>
   <div class="scan-box" [hidden]="!scanActive"></div>
+
+  <ng-container *ngIf="result && !scanActive">
+    <p class="ion-text-center" >{{result}}</p>
+  </ng-container>
 </ion-content>
