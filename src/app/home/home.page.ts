@@ -111,8 +111,9 @@ export class HomePage implements AfterViewInit {
     if(!found){
       found={}
     }
-    console.log(found)
+    
     this.displayData={...found,...temp}
+    console.log(this.displayData)
 
     
   }
