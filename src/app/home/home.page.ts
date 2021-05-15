@@ -1,7 +1,9 @@
+import { HttpClient } from '@angular/common/http';
 import { ThrowStmt } from '@angular/compiler';
 import { AfterViewInit, Component } from '@angular/core';
 import { Plugins } from '@capacitor/core';
 const { BarcodeScanner } = Plugins;
+import { map } from 'rxjs/operators';
 const startScan = async () => {
   
 };
@@ -20,7 +22,8 @@ const stopScan = () => {
 export class HomePage implements AfterViewInit {
   scanActive=false
   result
-  constructor() {}
+  data=[]
+  constructor(public http:HttpClient) {}
 
   async startScan(){
     this.scanActive=true
@@ -35,6 +38,34 @@ export class HomePage implements AfterViewInit {
       console.log(result.content); // log the raw scanned content
       this.result=result.content
     }
+  }
+
+  ionViewDidEnter(){
+    this.http.get("assets/data.csv",{responseType: 'text'}).pipe(
+      map((res: any) => {
+        let rowStrings=res.split("\r\n")
+        let objectArr=[]
+        let keys = rowStrings[0].split(',')
+        rowStrings.splice(0,1)
+        rowStrings.forEach(rowString => {
+          if(rowString){
+            let values=rowString.split(',')
+            let obj={}
+            keys.forEach((key,index) => {
+              
+              obj[key]=values[index]
+            });
+            objectArr.push(obj)
+          }
+        });
+        return objectArr
+      })
+   ).subscribe(res=>{
+      console.log(res)
+      this.data=res
+    },err=>{
+      console.log(err)
+    })
   }
 
   ngAfterViewInit(){
