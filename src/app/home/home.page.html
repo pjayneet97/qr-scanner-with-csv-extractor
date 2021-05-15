@@ -1,16 +1,18 @@
 <ion-header [translucent]="true">
   <ion-toolbar>
     <ion-title>
-      Blank
+      Scan the QR
     </ion-title>
   </ion-toolbar>
 </ion-header>
 
 <ion-content [fullscreen]="true" [style.--background]="scanActive?'#00000000':'#fff'">
 
-  <ion-button *ngIf="!scanActive" (click)="startScan()">Start Scanning</ion-button>
+  <div>
+    <ion-button class="btn-fixed-bottom ion-margin" expand="block" *ngIf="!scanActive" (click)="startScan()">Start Scanning</ion-button>
 
-  <ion-button *ngIf="scanActive" (click)="stopScan()">Stop Scanning</ion-button>
+  <ion-button class="btn-fixed-bottom ion-margin" expand="block" *ngIf="scanActive" (click)="stopScan()">Stop Scanning</ion-button>
+  </div>
 
   <p class="ion-text-center" *ngIf="result && !scanActive">{{result}}</p>
   <div class="scan-box" [hidden]="!scanActive"></div>
