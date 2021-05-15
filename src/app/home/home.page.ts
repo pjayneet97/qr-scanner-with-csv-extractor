@@ -20,6 +20,7 @@ const stopScan = () => {
   styleUrls: ['home.page.scss'],
 })
 export class HomePage implements AfterViewInit {
+  idKey
   scanActive=false
   result
   data=[]
@@ -48,6 +49,7 @@ export class HomePage implements AfterViewInit {
         let rowStrings=res.split("\r\n")
         let objectArr=[]
         let keys = rowStrings[0].split(',')
+        this.idKey=keys[0]
         rowStrings.splice(0,1)
         rowStrings.forEach(rowString => {
           if(rowString){
@@ -93,13 +95,24 @@ export class HomePage implements AfterViewInit {
   return false;
   }
 
-  showData(result){
+  showData(result:string){
     console.log(result) // string scanned for qr
-    // logic to find data using csvData present in data variable and result
-
-    this.displayData={ } // result from above logic
-
-    // display the data to screen using string interpolation in ng-container present in html
+    let temp = {}
+    temp['ID']=result.substr(0,4)
+    temp['herkunft1']=result.substr(4,3)
+    temp['herkunft2']=result.substr(7,8)
+    temp['puffer']=result.substr(15,2)
+    temp['nm']=result.substr(17,2)
+    temp['codiertes']=result.substr(19,5)
+    console.log(temp)
+    let found=this.data.find(element=>{
+      return element[this.idKey]=temp['ID']
+    })
+    if(!found){
+      found={}
+    }
+    console.log(found)
+    this.displayData={...found,...temp}
 
     
   }
