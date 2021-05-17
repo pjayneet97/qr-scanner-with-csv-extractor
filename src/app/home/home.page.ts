@@ -4,15 +4,12 @@ import { AfterViewInit, Component } from '@angular/core';
 import { Plugins } from '@capacitor/core';
 const { BarcodeScanner } = Plugins;
 import { map } from 'rxjs/operators';
-const startScan = async () => {
-  
-};
+import { File } from '@ionic-native/file/ngx';
+import { Router } from '@angular/router';
 
-const stopScan = () => {
-  const { BarcodeScanner } = Plugins;
-  BarcodeScanner.showBackground();
-  BarcodeScanner.stopScan();
-};
+
+
+
 
 @Component({
   selector: 'app-home',
@@ -25,7 +22,7 @@ export class HomePage implements AfterViewInit {
   result
   data=[]
   displayData=null
-  constructor(public http:HttpClient) {}
+  constructor(public http:HttpClient,public router:Router) {}
 
   async startScan(){
     this.scanActive=true
@@ -44,32 +41,64 @@ export class HomePage implements AfterViewInit {
   }
 
   ionViewDidEnter(){
-    this.http.get("assets/data.csv",{responseType: 'text'}).pipe(
-      map((res: any) => {
-        let rowStrings=res.split("\r\n")
-        let objectArr=[]
-        let keys = rowStrings[0].split(',')
-        this.idKey=keys[0]
-        rowStrings.splice(0,1)
-        rowStrings.forEach(rowString => {
-          if(rowString){
-            let values=rowString.split(',')
-            let obj={}
-            keys.forEach((key,index) => {
+    this.setData()
+  }
+
+
+  // setData(path="assets/data.csv"){
+  //   this.http.get(path,{responseType: 'text'}).pipe(
+  //     map((res: any) => {
+  //       let rowStrings=res.split("\r\n")
+  //       let objectArr=[]
+  //       let keys = rowStrings[0].split(',')
+  //       this.idKey=keys[0]
+  //       rowStrings.splice(0,1)
+  //       rowStrings.forEach(rowString => {
+  //         if(rowString){
+  //           let values=rowString.split(',')
+  //           let obj={}
+  //           keys.forEach((key,index) => {
               
-              obj[key]=values[index]
-            });
-            objectArr.push(obj)
-          }
+  //             obj[key]=values[index]
+  //           });
+  //           objectArr.push(obj)
+  //         }
+  //       });
+  //       return objectArr
+  //     })
+  //  ).subscribe(res=>{
+  //     console.log(res)
+  //     this.data=res
+  //   },err=>{
+  //     console.log(err)
+  //   })
+  // }
+
+  
+  setData(path="csvData"){
+    let res=localStorage.getItem("csvData")
+    let rowStrings=res.split("\r\n")
+    let objectArr=[]
+    let keys = rowStrings[0].split(',')
+    this.idKey=keys[0]
+    rowStrings.splice(0,1)
+    rowStrings.forEach(rowString => {
+      if(rowString){
+        let values=rowString.split(',')
+        let obj={}
+        keys.forEach((key,index) => {
+          
+          obj[key]=values[index]
         });
-        return objectArr
-      })
-   ).subscribe(res=>{
-      console.log(res)
-      this.data=res
-    },err=>{
-      console.log(err)
-    })
+        objectArr.push(obj)
+      }
+    });
+    this.data=objectArr
+    console.log(this.data)
+    if(!this.data || this.data.length==0){
+      this.router.navigateByUrl("/upload-csv")
+    }
+    //return objectArr
   }
 
   ngAfterViewInit(){
@@ -106,7 +135,7 @@ export class HomePage implements AfterViewInit {
     temp['codiertes']=result.substr(19,5)
     console.log(temp)
     let found=this.data.find(element=>{
-      return element[this.idKey]=temp['ID']
+      return element[this.idKey]==temp['ID']
     })
     if(!found){
       found={}
@@ -115,5 +144,7 @@ export class HomePage implements AfterViewInit {
     this.displayData={...found,...temp}
     console.log(this.displayData)
   }
+
+
 
 }

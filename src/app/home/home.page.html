@@ -3,6 +3,11 @@
     <ion-title>
       Scan the QR
     </ion-title>
+    <ion-buttons slot="end">
+      <ion-button routerLink="/upload-csv">
+        <ion-icon name="settings-outline"></ion-icon>
+      </ion-button>
+    </ion-buttons>
   </ion-toolbar>
 </ion-header>
 
@@ -14,7 +19,6 @@
   <ion-button color="danger" class="btn-fixed-bottom ion-margin" expand="block" *ngIf="scanActive" (click)="stopScan()">Stop Scanning</ion-button>
   </div>
   <div class="scan-box" [hidden]="!scanActive"></div>
-
   <ng-container *ngIf="result && !scanActive">
    <div class="ion-padding">
     <p class="ion-text-center" >{{result}}</p>
