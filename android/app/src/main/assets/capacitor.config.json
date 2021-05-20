@@ -1,17 +1,1 @@
-{
-  "appId": "com.qrscan.splixcube",
-  "appName": "qr-scanner",
-  "bundledWebRuntime": false,
-  "npmClient": "npm",
-  "webDir": "www",
-  "plugins": {
-    "SplashScreen": {
-      "launchShowDuration": 0
-    }
-  },
-  "cordova": {},
-  "server": {
-    "url": "http://192.168.29.55:8101",
-    "cleartext": true
-  }
-}
+{}

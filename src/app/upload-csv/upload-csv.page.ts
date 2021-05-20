@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, NgZone, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { ToastController } from '@ionic/angular';
 
@@ -9,7 +9,7 @@ import { ToastController } from '@ionic/angular';
 })
 export class UploadCsvPage implements OnInit {
 
-  constructor(public router:Router,public toastController: ToastController) { }
+  constructor(public router:Router,public toastController: ToastController,private zone:NgZone) { }
 
   ngOnInit() {
   }
@@ -21,8 +21,12 @@ export class UploadCsvPage implements OnInit {
     }else{
       console.log(event)
       let input = event.target;  
-      let reader = new FileReader();  
-      reader.readAsText(input.files[0]);  
+
+      this.zone.run(()=>{
+
+        let reader = this.getFileReader() 
+      reader.readAsText(input.files[0])
+
       reader.onload = () => {  
         let csvData = reader.result;  
         localStorage.setItem("csvData",csvData.toString())
@@ -34,6 +38,9 @@ export class UploadCsvPage implements OnInit {
       reader.onerror = function () {  
         console.log('error is occured while reading file!');  
       };
+  
+    });
+      
     }
     
   }
@@ -49,5 +56,11 @@ export class UploadCsvPage implements OnInit {
     });
     toast.present();
   }
+
+  getFileReader(): FileReader {
+    const fileReader = new FileReader();
+    const zoneOriginalInstance = (fileReader as any)["__zone_symbol__originalInstance"];
+    return zoneOriginalInstance || fileReader;
+}
 
 }

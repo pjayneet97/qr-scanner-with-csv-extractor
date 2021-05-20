@@ -132,7 +132,7 @@ export class HomePage implements AfterViewInit {
     temp['herkunft2']=result.substr(7,8)
     temp['puffer']=result.substr(15,2)
     temp['nm']=result.substr(17,2)
-    temp['codiertes']=result.substr(19,5)
+    temp['Datum']=result.substr(19,2)+'.'+result.substr(21,2)+'.'+result.substr(23,2)
     console.log(temp)
     let found=this.data.find(element=>{
       return element[this.idKey]==temp['ID']
